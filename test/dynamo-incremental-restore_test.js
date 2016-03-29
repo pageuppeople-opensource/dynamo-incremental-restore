@@ -33,7 +33,7 @@ describe('DynamoDb Incremental backups restore', function() {
         it('Execute latest version against DynamoDb', function(done) {
             dynamoIncrementalRestore()
                 .then(function(data) {
-                    data.should.have.length(3);
+                    Object.keys(data).should.have.length(4);
                     done();
                 })
                 .catch(function(err) {
