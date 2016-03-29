@@ -1,0 +1,44 @@
+{
+  "name": "dynamo-incremental-restore",
+  "description": "DynamoDb incremental restore",
+  "version": "0.0.1",
+  "homepage": "https://github.com/abhayachauhan/dynamo-incremental-restore",
+  "bugs": "https://github.com/abhayachauhan/dynamo-incremental-restore/issues",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "author": {
+    "name": "Abhaya Chauhan",
+    "email": "abschauhan@gmail.com",
+    "url": "http://www.abhayachauhan.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abhayachauhan/dynamo-incremental-restore"
+  },
+  "keywords": [],
+  "dependencies": {
+    "aws-sdk": "^2.2.47",
+    "q": "latest"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.1",
+    "del": "^2.2.0",
+    "gulp": "^3.8.8",
+    "gulp-install": "^0.6.0",
+    "gulp-istanbul": "^0.5.0",
+    "gulp-jscs": "^1.1.2",
+    "gulp-jshint": "^1.8.4",
+    "gulp-load-plugins": "^0.6.0",
+    "gulp-mocha": "^1.1.0",
+    "gulp-plumber": "^0.6.5",
+    "gulp-zip": "^3.2.0",
+    "jshint-stylish": "^0.4.0",
+    "mockery": "^1.4.1",
+    "should": "^4.0.4",
+    "sinon": "^1.17.3"
+  },
+  "scripts": {
+    "coveralls": "gulp test && cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test": "gulp test"
+  }
+}

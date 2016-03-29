@@ -1,0 +1,52 @@
+[
+    {
+        "ETag": "\"c02f97718b592923cfd86eadd16b96eb\"",
+        "Size": 214,
+        "StorageClass": "STANDARD",
+        "Key": "package.json",
+        "VersionId": "V1ISD8zgT1FRU8A9IMjyuXhWQ9aHa4lo",
+        "IsLatest": false,
+        "LastModified": "2016-03-23T05:04:31.000Z",
+        "Owner": {
+            "DisplayName": "pageuppeople",
+            "ID": "3cbe30b3e85cd798b68d66229555d20fe8c37623813ffdbba023b7537dd88e55"
+        }
+    },
+    {
+        "Owner": {
+            "DisplayName": "pageuppeople",
+            "ID": "3cbe30b3e85cd798b68d66229555d20fe8c37623813ffdbba023b7537dd88e55"
+        },
+        "Key": "package.json",
+        "VersionId": "16Tsc7ygOOG5atJdvhvrAN_oArsQzP3Q",
+        "IsLatest": true,
+        "LastModified": "2016-03-23T05:46:05.000Z",
+        "deletedMarker": true
+    }
+]
+2016-03-23T06:31:43.288Z    e7babc9f-f0c0-11e5-b1fe-dd38a2df87ac    [
+    {
+        "ETag": "\"c02f97718b592923cfd86eadd16b96eb\"",
+        "Size": 214,
+        "StorageClass": "STANDARD",
+        "Key": "package.json",
+        "VersionId": "V1ISD8zgT1FRU8A9IMjyuXhWQ9aHa4lo",
+        "IsLatest": false,
+        "LastModified": "2016-03-23T05:04:31.000Z",
+        "Owner": {
+            "DisplayName": "pageuppeople",
+            "ID": "3cbe30b3e85cd798b68d66229555d20fe8c37623813ffdbba023b7537dd88e55"
+        }
+    },
+    {
+        "Owner": {
+            "DisplayName": "pageuppeople",
+            "ID": "3cbe30b3e85cd798b68d66229555d20fe8c37623813ffdbba023b7537dd88e55"
+        },
+        "Key": "package.json",
+        "VersionId": "16Tsc7ygOOG5atJdvhvrAN_oArsQzP3Q",
+        "IsLatest": true,
+        "LastModified": "2016-03-23T05:46:05.000Z",
+        "deletedMarker": true
+    }
+]
