@@ -38,7 +38,7 @@ describe('DynamoDb Incremental backups restore', function() {
         it('Should execute three documents', function(done) {
             promise
                 .then(function(data) {
-                    Object.keys(data).should.have.length(3);
+                    Object.keys(data).should.have.length(4);
                     done();
                 })
                 .catch(function(err) {
@@ -52,6 +52,7 @@ describe('DynamoDb Incremental backups restore', function() {
                     data.should.have.properties('originalRecord');
                     data.should.have.properties('updatedRecord');
                     data.should.have.properties('restoredRecord');
+                    data.should.have.properties('deletedRecord');
                     done();
                 })
                 .catch(function(err) {
@@ -63,6 +64,7 @@ describe('DynamoDb Incremental backups restore', function() {
 
     describe('Point in time restore', function() {
 
+        it('Should execute ')
 
     });
 
