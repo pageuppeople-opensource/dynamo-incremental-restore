@@ -30,10 +30,28 @@ describe('DynamoDb Incremental backups restore', function() {
 
     describe('Latest version restore', function() {
 
-        it('Execute latest version against DynamoDb', function(done) {
-            dynamoIncrementalRestore()
+        var promise;
+        before(function() {
+            promise = dynamoIncrementalRestore();
+        });
+        
+        it('Should execute three documents', function(done) {
+            promise
                 .then(function(data) {
-                    Object.keys(data).should.have.length(4);
+                    Object.keys(data).should.have.length(3);
+                    done();
+                })
+                .catch(function(err) {
+                    done(err);
+                });
+        });
+
+        it('Should execute the correct documents', function(done) {
+            promise
+                .then(function(data) {
+                    data.should.have.properties('originalRecord');
+                    data.should.have.properties('updatedRecord');
+                    data.should.have.properties('restoredRecord');
                     done();
                 })
                 .catch(function(err) {
