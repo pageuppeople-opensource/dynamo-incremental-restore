@@ -22,9 +22,9 @@ dynamoIncrementalRestore();
 or
 
 ```javascript
-// Restore DynamoDb to March 1st 2016, at midnight.
+// Restore DynamoDb to April 1st 2016, at midnight.
 var dynamoIncrementalRestore = require('dynamo-incremental-restore');
-dynamoIncrementalRestore(new Date("2016-04-01T00:00:00.000Z"));
+dynamoIncrementalRestore(new Date('2016-04-01T00:00:00.000Z'));
 ```
 
 ## API
