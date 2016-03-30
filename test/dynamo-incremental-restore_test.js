@@ -7,16 +7,18 @@ var sinon = require('sinon');
 describe('DynamoDb Incremental backups restore', function() {
 
     var dynamoIncrementalRestore = require('../');
+    var testData;
     before(function() {
         var aws = require('aws-sdk');
         var awsMock = require('./aws-mock.js');
-        var testData = require('./test-data.json');
+        testData = require('./test-data.json');
 
         mockery.enable();
         sinon.stub(aws, 'S3', function() {
             return {
                 listObjectVersions: function(params, cb) {
-                    cb(false, testData);
+                    var data = JSON.parse(JSON.stringify(testData));
+                    cb(false, data);
                 }
             };
         });
@@ -78,12 +80,29 @@ describe('DynamoDb Incremental backups restore', function() {
                     });
             });
 
-            it('Should create \'deletedRecord\' row after it was created', function(done) {
+            it('Should create \'deletedRecord\' row after it was created, but before it is deleted', function(done) {
                 var pointInTime = new Date("2016-03-28T23:56:40.000Z");
                 dynamoIncrementalRestore(pointInTime)
                     .then(function(data) {
                         data.should.have.properties('deletedRecord');
                         should.not.exist(data['deletedRecord'].deletedMarker);
+                        done();
+                    })
+                    .catch(function(err) {
+                        done(err);
+                    });
+            });
+        });
+
+        describe('Restored Record', function() {
+            it('Should recreate \'restoredRecord\' row after it was recreated', function(done) {
+                var pointInTime = new Date("2016-04-01T23:51:01.000Z");
+                dynamoIncrementalRestore(pointInTime)
+                    .then(function(data) {
+                        data.should.have.properties('restoredRecord');
+                        data['restoredRecord'].VersionId.should.equal('2Zf.8YkRap26dnjmW58qB4jxCVcRhnSJ');
+                        should.not.exist(data['restoredRecord'].deletedMarker);
+
                         done();
                     })
                     .catch(function(err) {
@@ -120,7 +139,22 @@ describe('DynamoDb Incremental backups restore', function() {
             });
         });
 
+        describe('Updated Record', function() {
+            it('Should update row \'updatedRecord\' with correct version after it was updated', function(done) {
+                var pointInTime = new Date("2016-04-01T23:52:15.000Z");
+                dynamoIncrementalRestore(pointInTime)
+                    .then(function(data) {
+                        data.should.have.properties('updatedRecord');
+                        data['updatedRecord'].VersionId.should.equal('JDA8H6b28hd7rVNZTTh0O1UoLqiPMuht');
+                        should.not.exist(data['updatedRecord'].deletedMarker);
 
+                        done();
+                    })
+                    .catch(function(err) {
+                        done(err);
+                    });
+            });
+        });
     });
 
 });
