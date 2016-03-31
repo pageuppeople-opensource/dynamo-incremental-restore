@@ -34,7 +34,7 @@ describe('DynamoDb Incremental backups restore', function() {
 
         var promise;
         before(function() {
-            promise = dynamoIncrementalRestore();
+            promise = dynamoIncrementalRestore.buildList({});
         });
 
         it('Should execute three documents', function(done) {
@@ -69,7 +69,7 @@ describe('DynamoDb Incremental backups restore', function() {
         describe('Deleted Record', function() {
             it('Should delete \'deletedRecord\' row after it was deleted', function(done) {
                 var pointInTime = new Date("2016-03-29T23:56:55.000Z");
-                dynamoIncrementalRestore(pointInTime)
+                dynamoIncrementalRestore.buildList({}, pointInTime)
                     .then(function(data) {
                         data.should.have.properties('deletedRecord');
                         data['deletedRecord'].deletedMarker.should.be.true;
@@ -82,7 +82,7 @@ describe('DynamoDb Incremental backups restore', function() {
 
             it('Should create \'deletedRecord\' row after it was created, but before it is deleted', function(done) {
                 var pointInTime = new Date("2016-03-28T23:56:40.000Z");
-                dynamoIncrementalRestore(pointInTime)
+                dynamoIncrementalRestore.buildList({}, pointInTime)
                     .then(function(data) {
                         data.should.have.properties('deletedRecord');
                         should.not.exist(data['deletedRecord'].deletedMarker);
@@ -97,7 +97,7 @@ describe('DynamoDb Incremental backups restore', function() {
         describe('Restored Record', function() {
             it('Should recreate \'restoredRecord\' row after it was recreated', function(done) {
                 var pointInTime = new Date("2016-04-01T23:51:01.000Z");
-                dynamoIncrementalRestore(pointInTime)
+                dynamoIncrementalRestore.buildList({}, pointInTime)
                     .then(function(data) {
                         data.should.have.properties('restoredRecord');
                         data['restoredRecord'].VersionId.should.equal('2Zf.8YkRap26dnjmW58qB4jxCVcRhnSJ');
@@ -112,9 +112,9 @@ describe('DynamoDb Incremental backups restore', function() {
         });
 
         describe('Original Record', function() {
-            it('Should delete original record before it existed', function(done) {
+            it('Should delete \'originalRecord\' before it existed', function(done) {
                 var pointInTime = new Date("2016-03-20T23:51:02.000Z");
-                dynamoIncrementalRestore(pointInTime)
+                dynamoIncrementalRestore.buildList({}, pointInTime)
                     .then(function(data) {
                         data.should.have.properties('originalRecord');
                         data['originalRecord'].deletedMarker.should.be.true;
@@ -127,7 +127,7 @@ describe('DynamoDb Incremental backups restore', function() {
 
             it('Should create \'originalRecord\' row after it was created', function(done) {
                 var pointInTime = new Date("2016-04-01T23:51:02.000Z");
-                dynamoIncrementalRestore(pointInTime)
+                dynamoIncrementalRestore.buildList({}, pointInTime)
                     .then(function(data) {
                         data.should.have.properties('originalRecord');
                         should.not.exist(data['originalRecord'].deletedMarker);
@@ -142,7 +142,7 @@ describe('DynamoDb Incremental backups restore', function() {
         describe('Updated Record', function() {
             it('Should update row \'updatedRecord\' with correct version after it was updated', function(done) {
                 var pointInTime = new Date("2016-04-01T23:52:15.000Z");
-                dynamoIncrementalRestore(pointInTime)
+                dynamoIncrementalRestore.buildList({}, pointInTime)
                     .then(function(data) {
                         data.should.have.properties('updatedRecord');
                         data['updatedRecord'].VersionId.should.equal('JDA8H6b28hd7rVNZTTh0O1UoLqiPMuht');
