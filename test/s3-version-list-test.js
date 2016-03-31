@@ -18,6 +18,22 @@ describe('Build Version List from S3 Incremental Backups', function() {
                 listObjectVersions: function(params, cb) {
                     var data = JSON.parse(JSON.stringify(testData));
                     cb(false, data);
+                },
+                getObject: function(params) {
+                    return {
+                        on: function(x, data) { // data
+                            return {
+                                on: function(x, done) { // done
+                                    return {
+                                        send: function() {
+                                            data(params.Key + 'DATA');
+                                            done();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             };
         });

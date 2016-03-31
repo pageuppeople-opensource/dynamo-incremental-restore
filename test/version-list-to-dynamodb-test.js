@@ -1,49 +1,29 @@
-// 'use strict';
+'use strict';
 
-// var mockery = require('mockery');
-// var should = require('should');
-// var sinon = require('sinon');
+var mockery = require('mockery');
+var should = require('should');
+var sinon = require('sinon');
 
-// describe('S3 Versions to DynamoDb', function() {
+describe('S3 Versions to DynamoDb', function() {
 
-//     var dynamoIncrementalRestore = require('../');
-//     var testData;
-//     before(function() {
-//         var aws = require('aws-sdk');
-//         testData = require('./s3-test-data.json');
+    var dynamoIncrementalRestore = require('../');
+    var testData = require('./versionlist-test-data.json');
 
-//         mockery.enable();
-//         sinon.stub(aws, 'S3', function() {
-//             return {
-//                 listObjectVersions: function(params, cb) {
-//                     var data = JSON.parse(JSON.stringify(testData));
-//                     cb(false, data);
-//                 }
-//             };
-//         });
+    describe('Given a list of versions', function() {
 
-//         mockery.registerMock('aws-sdk', aws);
-//     });
+        var promise;
+        before(function() {
+            promise = dynamoIncrementalRestore.pushToDynamo({}, testData);
+        });
 
-//     after(function() {
-//         mockery.disable();
-//     });
+        it('Should execute row updates', function(done) {
+            done();
+        });
 
-//     describe('Given a list of versions', function() {
+        it('Should execute row deletion', function(done) {
+            done();
+        });
 
-//         var promise;
-//         before(function() {
-//             promise = dynamoIncrementalRestore.pushToDynamo({}, []);
-//         });
+    });
 
-//         it('Should execute row updates', function(done) {
-
-//         });
-
-//         it('Should execute row deletion', function(done) {
-
-//         });
-
-//     });
-
-// });
+});

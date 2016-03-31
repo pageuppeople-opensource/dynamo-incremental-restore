@@ -1,0 +1,52 @@
+{
+    "deletedRecord": {
+        "Owner": {
+            "DisplayName": "pageuppeople",
+            "ID": "3cbe30b3e85cd798b68d66229555d20fe8c37623813ffdbba023b7537dd88e55"
+        },
+        "Key": "deletedRecord",
+        "VersionId": "zjMF6TBbv2OTA4nr3Zkvq.ugQaxmAtOs",
+        "IsLatest": true,
+        "LastModified": "2016-03-28T23:56:55.000Z",
+        "deletedMarker": true
+    },
+    "restoredRecord": {
+        "ETag": "c02f97718b592923cfd86eadd16b96eb",
+        "Size": 214,
+        "StorageClass": "STANDARD",
+        "Key": "restoredRecord",
+        "VersionId": "2Zf.8YkRap26dnjmW58qB4jxCVcRhnSJ",
+        "IsLatest": true,
+        "LastModified": "2016-03-28T23:51:01.000Z",
+        "Owner": {
+            "DisplayName": "pageuppeople",
+            "ID": "3cbe30b3e85cd798b68d66229555d20fe8c37623813ffdbba023b7537dd88e55"
+        }
+    },
+    "originalRecord": {
+        "ETag": "04b0e7b8deb4a1d41886329cca11d812",
+        "Size": 2133,
+        "StorageClass": "STANDARD",
+        "Key": "originalRecord",
+        "VersionId": "KIJCeRdVkNsnmIoK2ZDMYTB2AiNAvF0K",
+        "IsLatest": true,
+        "LastModified": "2016-03-28T23:51:02.000Z",
+        "Owner": {
+            "DisplayName": "pageuppeople",
+            "ID": "3cbe30b3e85cd798b68d66229555d20fe8c37623813ffdbba023b7537dd88e55"
+        }
+    },
+    "updatedRecord": {
+        "ETag": "04b0e7b8deb4a1d41886329cca11d812",
+        "Size": 2133,
+        "StorageClass": "STANDARD",
+        "Key": "updatedRecord",
+        "VersionId": "JDA8H6b28hd7rVNZTTh0O1UoLqiPMuht",
+        "IsLatest": true,
+        "LastModified": "2016-03-28T23:52:15.000Z",
+        "Owner": {
+            "DisplayName": "pageuppeople",
+            "ID": "3cbe30b3e85cd798b68d66229555d20fe8c37623813ffdbba023b7537dd88e55"
+        }
+    }
+}
