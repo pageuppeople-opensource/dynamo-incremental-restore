@@ -1,48 +1,42 @@
 'use strict';
 
-var mockery = require('mockery');
+// var mockery = require('mockery');
 var should = require('should');
 var sinon = require('sinon');
+var aws = require('aws-sdk');
 
 describe('Build Version List from S3 Incremental Backups', function() {
 
     var dynamoIncrementalRestore = require('../');
     var testData;
-    before(function() {
-        var aws = require('aws-sdk');
+
+    before(function() {        
         testData = require('./s3-test-data.json');
 
-        mockery.enable();
+        // mockery.enable();
         sinon.stub(aws, 'S3', function() {
             return {
                 listObjectVersions: function(params, cb) {
                     var data = JSON.parse(JSON.stringify(testData));
                     cb(false, data);
-                },
-                getObject: function(params) {
-                    return {
-                        on: function(x, data) { // data
-                            return {
-                                on: function(x, done) { // done
-                                    return {
-                                        send: function() {
-                                            data(params.Key + 'DATA');
-                                            done();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
             };
         });
 
-        mockery.registerMock('aws-sdk', aws);
+        // sinon.mock(aws.DynamoDb, function() {
+        //     return {
+        //         batchWriteItem: function(params, cb) {
+        //             cb();
+        //         }
+        //     };
+        // });
+
+        // mockery.registerMock('aws-sdk', aws);
     });
 
     after(function() {
-        mockery.disable();
+        // mockery.disable();
+        aws.S3.restore();
     });
 
     describe('Latest version restore', function() {
