@@ -1,6 +1,5 @@
 'use strict';
 
-// var mockery = require('mockery');
 var should = require('should');
 var sinon = require('sinon');
 var aws = require('aws-sdk');;
@@ -52,14 +51,6 @@ describe('S3 Versions to DynamoDb', function() {
         var promise;
         before(function() {
             promise = dynamoIncrementalRestore.pushToDynamo({}, testData);
-        });
-
-        it('Should execute four dynamodb calls', function(done) {
-            promise.then(function(data) {
-                batchWriteItemStub.callCount.should.equal(4);
-                console.log();
-                done();
-            });
         });
 
         it('Should execute three row updates', function(done) {
