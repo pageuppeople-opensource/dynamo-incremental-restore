@@ -67,19 +67,6 @@
                 "DisplayName": "pageuppeople",
                 "ID": "3cbe30b3e85cd798b68d66229555d20fe8c37623813ffdbba023b7537dd88e55"
             }
-        },
-        {
-            "ETag": "\"04b0e7b8deb4a1d41886329cca11d812\"",
-            "Size": 2133,
-            "StorageClass": "STANDARD",
-            "Key": "updatedRecord",
-            "VersionId": "OSX9ZY8aw9dFuZpMU4Ukjeb4ENXfW1Xo",
-            "IsLatest": false,
-            "LastModified": "2016-03-28T23:51:27.000Z",
-            "Owner": {
-                "DisplayName": "pageuppeople",
-                "ID": "3cbe30b3e85cd798b68d66229555d20fe8c37623813ffdbba023b7537dd88e55"
-            }
         }
     ],
     "DeleteMarkers": [

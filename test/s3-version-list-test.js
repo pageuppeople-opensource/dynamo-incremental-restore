@@ -4,21 +4,30 @@
 var should = require('should');
 var sinon = require('sinon');
 var aws = require('aws-sdk');
+var testDataFirst = require('./s3-test-data-1.json');
+var testDataSecond = require('./s3-test-data-2.json');
 
 describe('Build Version List from S3 Incremental Backups', function() {
 
     var dynamoIncrementalRestore = require('../');
-    var testData;
+    var listObjectVersionsStub;
+    var firstCallData, secondCallData;
 
-    before(function() {        
-        testData = require('./s3-test-data.json');
+    before(function() {
+        firstCallData = function() {
+            return JSON.parse(JSON.stringify(testDataFirst));
+        }
+        secondCallData = function() {
+            return JSON.parse(JSON.stringify(testDataSecond));
+        }
 
+        listObjectVersionsStub = sinon.stub();
+        listObjectVersionsStub.onFirstCall().yields(false, firstCallData());
+        listObjectVersionsStub.onSecondCall().yields(false, secondCallData());
+        listObjectVersionsStub.yields('Should not call listObjectVersion three times!');
         sinon.stub(aws, 'S3', function() {
             return {
-                listObjectVersions: function(params, cb) {
-                    var data = JSON.parse(JSON.stringify(testData));
-                    cb(false, data);
-                }
+                listObjectVersions: listObjectVersionsStub
             };
         });
     });
@@ -26,6 +35,13 @@ describe('Build Version List from S3 Incremental Backups', function() {
     after(function() {
         aws.S3.restore();
     });
+
+    beforeEach(function() {
+        listObjectVersionsStub.reset();
+        listObjectVersionsStub.onFirstCall().yields(false, firstCallData());
+        listObjectVersionsStub.onSecondCall().yields(false, secondCallData());
+    });
+
 
     describe('Latest version restore', function() {
 
@@ -41,7 +57,7 @@ describe('Build Version List from S3 Incremental Backups', function() {
                     done();
                 })
                 .catch(function(err) {
-                    done(err);
+                    console.error(err);
                 });
         });
 
@@ -55,10 +71,9 @@ describe('Build Version List from S3 Incremental Backups', function() {
                     done();
                 })
                 .catch(function(err) {
-                    done(err);
+                    console.error(err);
                 });
         });
-
     });
 
     describe('Point in time restore', function() {
@@ -73,7 +88,7 @@ describe('Build Version List from S3 Incremental Backups', function() {
                         done();
                     })
                     .catch(function(err) {
-                        done(err);
+                        console.error(err);
                     });
             });
 
@@ -86,7 +101,7 @@ describe('Build Version List from S3 Incremental Backups', function() {
                         done();
                     })
                     .catch(function(err) {
-                        done(err);
+                        console.error(err);
                     });
             });
         });
@@ -103,12 +118,13 @@ describe('Build Version List from S3 Incremental Backups', function() {
                         done();
                     })
                     .catch(function(err) {
-                        done(err);
+                        console.error(err);
                     });
             });
         });
 
         describe('Original Record', function() {
+
             it('Should delete \'originalRecord\' before it existed', function(done) {
                 var pointInTime = new Date("2016-03-20T23:51:02.000Z");
                 dynamoIncrementalRestore.buildList({ restoreToPointInTime: pointInTime })
@@ -118,7 +134,7 @@ describe('Build Version List from S3 Incremental Backups', function() {
                         done();
                     })
                     .catch(function(err) {
-                        done(err);
+                        console.error(err);
                     });
             });
 
@@ -131,7 +147,7 @@ describe('Build Version List from S3 Incremental Backups', function() {
                         done();
                     })
                     .catch(function(err) {
-                        done(err);
+                        console.error(err);
                     });
             });
         });
@@ -144,11 +160,10 @@ describe('Build Version List from S3 Incremental Backups', function() {
                         data.should.have.properties('updatedRecord');
                         data['updatedRecord'].VersionId.should.equal('JDA8H6b28hd7rVNZTTh0O1UoLqiPMuht');
                         should.not.exist(data['updatedRecord'].deletedMarker);
-
                         done();
                     })
                     .catch(function(err) {
-                        done(err);
+                        console.error(err);
                     });
             });
         });
