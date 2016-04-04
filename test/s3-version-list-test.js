@@ -13,7 +13,6 @@ describe('Build Version List from S3 Incremental Backups', function() {
     before(function() {        
         testData = require('./s3-test-data.json');
 
-        // mockery.enable();
         sinon.stub(aws, 'S3', function() {
             return {
                 listObjectVersions: function(params, cb) {
@@ -22,20 +21,9 @@ describe('Build Version List from S3 Incremental Backups', function() {
                 }
             };
         });
-
-        // sinon.mock(aws.DynamoDb, function() {
-        //     return {
-        //         batchWriteItem: function(params, cb) {
-        //             cb();
-        //         }
-        //     };
-        // });
-
-        // mockery.registerMock('aws-sdk', aws);
     });
 
     after(function() {
-        // mockery.disable();
         aws.S3.restore();
     });
 

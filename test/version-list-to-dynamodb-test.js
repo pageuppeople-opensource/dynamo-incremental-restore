@@ -5,6 +5,8 @@ var sinon = require('sinon');
 var aws = require('aws-sdk');;
 var testData = require('./versionlist-test-data.json');
 
+var TableName = 'TestTable'
+
 describe('S3 Versions to DynamoDb', function() {
 
     var dynamoIncrementalRestore = require('../');
@@ -13,9 +15,24 @@ describe('S3 Versions to DynamoDb', function() {
     var callCount;
     before(function() {
         batchWriteItemStub = sinon.stub().yields();
+        var describeTable = sinon.stub().withArgs({ TableName: TableName }).yields([undefined, {
+            Table: {
+                KeySchema: [{
+                    AttributeName: 'FormInstanceId',
+                    KeyType: 'HASH'
+                }, {
+                    AttributeName: 'InstanceId',
+                    KeyType: 'RANGE'
+                }],
+                TableName: TableName,
+                TableStatus: 'ACTIVE'
+            }
+        }]);
+
         sinon.stub(aws, 'DynamoDB', function() {
             return {
-                batchWriteItem: batchWriteItemStub
+                batchWriteItem: batchWriteItemStub,
+                describeTable: describeTable
             }
         });
 
@@ -28,7 +45,8 @@ describe('S3 Versions to DynamoDb', function() {
                                 on: function(x, done) { // done
                                     return {
                                         send: function() {
-                                            data(params.Key + 'DATA');
+                                            var row = '{"FormInstanceId":{"S":"01623c09-574d-4bec-8d46-a5d900048b44"},"InstanceId":{"N":"683"}}';
+                                            data(row);
                                             done();
                                         }
                                     }
@@ -53,30 +71,55 @@ describe('S3 Versions to DynamoDb', function() {
             promise = dynamoIncrementalRestore.pushToDynamo({}, testData);
         });
 
-        it('Should execute three row updates', function(done) {
-            promise.then(function(data) {
-                var updateCount = 0;
-                for (var i = 0; i < 4; i++) {
-                    if (batchWriteItemStub.getCall(i).args[0].RequestItems.TestTable[0].PutRequest) {
-                        updateCount++;
+        describe('Row Updates (create, update)', function() {
+            it('Should execute three row updates', function(done) {
+                promise.then(function(data) {
+                    var updateCount = 0;
+                    for (var i = 0; i < 4; i++) {
+                        if (batchWriteItemStub.getCall(i).args[0].RequestItems[TableName][0].PutRequest) {
+                            updateCount++;
+                        }
                     }
-                }
-                updateCount.should.equal(3);
-                done();
+                    updateCount.should.equal(3);
+                    done();
+                }).catch(function(err) {
+                    console.error(err);
+                });;
             });
         });
 
-        it('Should execute one row deletion', function(done) {
-            promise.then(function(data) {
-                var deleteCount = 0;
-                for (var i = 0; i < 4; i++) {
-                    if (batchWriteItemStub.getCall(i).args[0].RequestItems.TestTable[0].DeleteRequest) {
-                        deleteCount++;
+        describe('Row deletes', function() {
+            var deleteRequests = [];
+
+            before(function() {
+                promise.then(function(data) {
+                    for (var i = 0; i < 4; i++) {
+                        if (batchWriteItemStub.getCall(i).args[0].RequestItems[TableName][0].DeleteRequest) {
+                            deleteRequests.push(batchWriteItemStub.getCall(i).args[0].RequestItems[TableName][0].DeleteRequest);
+                        }
                     }
-                }
-                deleteCount.should.equal(1);
-                done();
+                }).catch(function(err) {
+                    console.error(err);
+                });;
             });
+
+            it('Should execute one row deletion', function(done) {
+                promise.then(function(data) {
+                    deleteRequests.length.should.equal(1);
+                    done();
+                });
+            });
+
+            it('Should contain correct keys in delete request', function(done) {
+                promise.then(function(data) {
+                    should.exist(deleteRequests[0].Key.FormInstanceId.S);
+                    should.exist(deleteRequests[0].Key.InstanceId.N);
+                    done();
+                }).catch(function(err) {
+                    console.error(err);
+                });
+            });
+
         });
 
     });
