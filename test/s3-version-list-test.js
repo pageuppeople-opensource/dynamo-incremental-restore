@@ -169,4 +169,22 @@ describe('Build Version List from S3 Incremental Backups', function() {
         });
     });
 
+    describe('Error', function() {
+        it('Error retrieving S3 object versions should reject promise', function(done) {
+            listObjectVersionsStub.onFirstCall().yields('Error');
+            var promise = dynamoIncrementalRestore.buildList({});
+            promise.then(function(data) {
+                should.not.exist('Promise should have been rejected.');
+                done();
+            }, function(err) {
+                should.exist(err);
+                // should.not.exist('Promies should have been rejected.');
+                done();
+            }).catch(function(err) {
+                should.not.exist('Promies should have been rejected.');
+                done();
+            });
+        });
+    });
+
 });

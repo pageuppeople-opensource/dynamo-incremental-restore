@@ -68,7 +68,7 @@ describe('S3 Versions to DynamoDb', function() {
 
         var promise;
         before(function() {
-            promise = dynamoIncrementalRestore.pushToDynamo({}, testData);
+            promise = dynamoIncrementalRestore.pushToDynamo({ destinationTableName: TableName }, testData);
         });
 
         describe('Row Updates (create, update)', function() {
