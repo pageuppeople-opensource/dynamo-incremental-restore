@@ -119,9 +119,18 @@ describe('S3 Versions to DynamoDb', function() {
                     console.error(err);
                 });
             });
+        });
+
+    });
+
+    describe('Error scenarios', function() {
+        describe('S3 Get Object Error', function() {
 
         });
 
+        describe('Dynamo Db Errors', function() {
+
+        });
     });
 
 });

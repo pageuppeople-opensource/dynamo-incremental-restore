@@ -86,6 +86,6 @@ gulp.task('zip', function() {
     .pipe(gulp.dest(paths.deploy));
 });
 
-gulp.task('release', ['clean', 'bump', 'js', 'npm', 'zip']);
+gulp.task('release', ['clean', 'js', 'npm', 'zip']);
 
 gulp.task('default', ['watch']);
