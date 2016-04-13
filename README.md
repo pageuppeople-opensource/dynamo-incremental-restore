@@ -27,9 +27,14 @@ var dynamoIncrementalRestore = require('dynamo-incremental-restore');
 dynamoIncrementalRestore(new Date('2016-04-01T00:00:00.000Z'));
 ```
 
+##TODO
+
+1. Batch writes to Dynamo in blocks of 25, and handle unprocessed items
+2. Break process into three steps (Build Version List, Build Dynamo Requests, Send Requests to Dynamo)
+
 ## API
 
-_(Coming soon)_
+See index.js
 
 
 ## Contributing
