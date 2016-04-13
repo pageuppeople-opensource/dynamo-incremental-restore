@@ -28,7 +28,20 @@ describe('S3 Versions to DynamoDb', function() {
                 TableStatus: 'ACTIVE'
             }
         }]);
-
+        describeTable = function(data, cb) {
+            console.log('called');
+            cb(undefined, {Table: {
+                KeySchema: [{
+                    AttributeName: 'FormInstanceId',
+                    KeyType: 'HASH'
+                }, {
+                    AttributeName: 'InstanceId',
+                    KeyType: 'RANGE'
+                }],
+                TableName: TableName,
+                TableStatus: 'ACTIVE'
+            }});
+        };
         sinon.stub(aws, 'DynamoDB', function() {
             return {
                 batchWriteItem: batchWriteItemStub,

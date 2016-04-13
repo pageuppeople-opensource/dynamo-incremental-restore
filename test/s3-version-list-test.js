@@ -105,6 +105,22 @@ describe('Build Version List from S3 Incremental Backups', function() {
                             console.error(err);
                         });
                 });
+
+                it('Should have existingVersionId for \'deletedRecord\' when being deleted', function(done) {
+                    var pointInTime = new Date("2016-03-29T23:56:55.000Z");
+                    dynamoIncrementalRestore.buildList({ restoreToPointInTime: pointInTime, runDelta: false })
+                        .then(function(data) {
+                            data.should.have.properties('deletedRecord');
+                            data['deletedRecord'].deletedMarker.should.be.true;
+                            should.not.exist(data['deletedRecord'].Size);
+                            console.log(data['deletedRecord']);
+                            should.exist(data['deletedRecord'].existingVersionId, 'existingVersionId property does not exist on records to be deleted.');
+                            done();
+                        })
+                        .catch(function(err) {
+                            console.error(err);
+                        });
+                });
             });
 
             describe('Restored Record', function() {
@@ -132,6 +148,8 @@ describe('Build Version List from S3 Incremental Backups', function() {
                         .then(function(data) {
                             data.should.have.properties('originalRecord');
                             data['originalRecord'].deletedMarker.should.be.true;
+                            should.exist(data['originalRecord'].Size);
+                            // should.exist(data['originalRecord'].existingVersionId, 'existingVersionId property does not exist on records to be deleted.');
                             done();
                         })
                         .catch(function(err) {
