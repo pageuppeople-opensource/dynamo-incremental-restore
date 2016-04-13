@@ -125,6 +125,7 @@ describe('S3 Versions to DynamoDb', function() {
 
             it('Should contain correct keys in delete request', function(done) {
                 promise.then(function(data) {
+                    Object.keys(deleteRequests[0].Key).length.should.equal(2);
                     should.exist(deleteRequests[0].Key.FormInstanceId.S);
                     should.exist(deleteRequests[0].Key.InstanceId.N);
                     done();
