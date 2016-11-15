@@ -10,22 +10,21 @@ Restore DynamoDb data from S3 incremental backups
 $ npm install --save dynamo-incremental-restore
 ```
 
-
 ## Usage
-
+### Example Files
+example-restore-to-point.js
 ```javascript
-// Restore DynamoDb to latest version
-var dynamoIncrementalRestore = require('dynamo-incremental-restore');
-dynamoIncrementalRestore();
-```
+var dynamoIncrementalRestore = require('../');
 
-or
-
-```javascript
-// Restore DynamoDb to April 1st 2016, at midnight.
-var dynamoIncrementalRestore = require('dynamo-incremental-restore');
-dynamoIncrementalRestore(new Date('2016-04-01T00:00:00.000Z'));
+console.log(dynamoIncrementalRestore.logbuildList({
+    Prefix: "ServiceFolder/TableFolder/ClientID",  // Where the files sit. Use parent folders and it should recursively find all child document/files e.g. Formsmith/Formsmith.Blue.FormSchema/543
+    DestinationTableName: "Example Table Name" ,// e.g. Formsmith.Blue.FormSchema
+    Bucket: "au-backup-bucket-name", // e.g. pageup-dynamo-backup
+    restoreToPointInTime: new Date('2020-11-14T23:50:32.000Z'), //the last point in time you want to update a version
+    region: "ap-southeast-2" //Dynamo Region. Change for each datacenter
+}));
 ```
+This will be fine to run both on your local environment (for testing the dev datacenter) or uploaded into an EC2 instance with the appropriate permissions to access client data for backing up. Clone the repository into a machine you want to perform the task on and use node to run the script. 
 
 ##TODO
 
