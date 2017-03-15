@@ -1,6 +1,8 @@
 node_modules/
 temp/
 coverage/
+package/
+LambdaFunction.zip
 npm-debug.log
 .DS_Store
 .idea
