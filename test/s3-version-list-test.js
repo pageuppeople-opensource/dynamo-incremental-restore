@@ -54,7 +54,7 @@ describe('Build Version List from S3 Incremental Backups', function() {
             it('Should execute three documents', function(done) {
                 promise
                     .then(function(data) {
-                        Object.keys(data).should.have.length(3);
+                        Object.keys(data).should.have.length(4);
                         done();
                     })
                     .catch(function(err) {
