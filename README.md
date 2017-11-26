@@ -1,14 +1,8 @@
 # dynamo-incremental-restore 
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-url]][daviddm-image] [![Coverage Status][coveralls-image]][coveralls-url]
+[![Build Status](https://www.travis-ci.org/PageUpPeopleOrg/dynamo-incremental-restore.svg?branch=master)](https://www.travis-ci.org/PageUpPeopleOrg/dynamo-incremental-restore)
 
 Restore DynamoDb data from S3 incremental backups
 
-
-## Install
-
-```bash
-$ npm install --save dynamo-incremental-restore
-```
 
 ## Usage
 ### Example Files
@@ -43,10 +37,11 @@ Set the handler to be index.logbuildList, give it a role with the appropriate pe
 
 1. Batch writes to Dynamo in blocks of 25, and handle unprocessed items
 2. Break process into three steps (Build Version List, Build Dynamo Requests, Send Requests to Dynamo)
+3. Parallelise retrieval from S3, and Batch Write Items
 
 ## API
 
-See index.js
+See lib/index.js
 
 
 ## Contributing
