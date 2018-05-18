@@ -10,8 +10,8 @@
 
 var dynamoIncrementalRestore = require('../');
 
-console.log(dynamoIncrementalRestore.filterCachedVersionList({
+dynamoIncrementalRestore.filterCachedVersionList({
     restoreToPointInTime: '2020-11-14T23:50:32.000Z', //the last point in time you want to update a version
     cachedVersionListFileName: 'Formsmith.Green.Form'
-}));
+}, null, function() { console.log('Done'); } );
 
