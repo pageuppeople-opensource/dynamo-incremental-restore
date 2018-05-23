@@ -19,6 +19,7 @@
   "dependencies": {
     "async": "^2.0.0-rc.3",
     "aws-sdk": "^2.2.47",
+    "cli-progress": "^2.0.0",
     "q": "latest"
   },
   "devDependencies": {
